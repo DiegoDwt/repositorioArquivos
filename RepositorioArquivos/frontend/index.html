@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositório de Arquivos Seguro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>Repositório de Arquivos Seguro</h1>
+</header>
+
+<main>
+
+    <!-- Upload Section -->
+    <section id="upload-section">
+        <h2>Upload de Arquivos</h2>
+        <form id="upload-form" method="POST" enctype="multipart/form-data">
+            <label for="file-upload">Escolha um arquivo:</label>
+            <input type="file" id="file-upload" name="file">
+            <button type="submit">Upload</button>
+        </form>
+        <br>    
+        <p id="upload-status"></p>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download-section">
+        <h2>Download de Arquivos</h2>
+        <!-- Elemento para exibir a lista de arquivos -->
+        <div id="file-list">
+            <p>Carregando arquivos...</p>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2024 Repositório de Arquivos Seguro</p>
+</footer>
+
+<script>
+    // Function to format file size
+    function formatFileSize(bytes) {
+        if (bytes === null || bytes === undefined) return '0 B';
+        if (bytes < 0) return 'Invalid size';
+        const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        let i = 0;
+        while (bytes >= 1024 && i < units.length - 1) {
+            bytes /= 1024;
+            i++;
+        }
+        return bytes.toFixed(2) + ' ' + units[i];
+    }
+
+    // Upload functionality
+    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fileInput = document.getElementById('file-upload');
+        const file = fileInput.files[0];
+
+        // Validação de arquivo
+        if (!file) {
+            document.getElementById('upload-status').textContent = 'Por favor, selecione um arquivo.';
+            return;
+        }
+
+        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf']; // Tipos permitidos
+        if (!allowedTypes.includes(file.type)) {
+            document.getElementById('upload-status').textContent = 'Tipo de arquivo não permitido.';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('http://localhost:5000/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            document.getElementById('upload-status').textContent = result.message || 'Upload realizado com sucesso!';
+            fetchFileList(); // Atualiza a lista de arquivos após o upload
+        } catch (error) {
+            document.getElementById('upload-status').textContent = 'Erro no upload!';
+        }
+    });
+
+    // Função para buscar lista de arquivos
+    async function fetchFileList() {
+        const fileList = document.getElementById('file-list');
+        fileList.innerHTML = '<p>Carregando arquivos...</p>';
+
+        try {
+            const response = await fetch('http://localhost:5000/list-files');
+            if (!response.ok) throw new Error('Erro ao carregar a lista de arquivos.');
+
+            const data = await response.json();
+            fileList.innerHTML = ''; // Limpa o conteúdo anterior
+
+            if (data.files.length === 0) {
+                fileList.innerHTML = '<p>Nenhum arquivo disponível para download.</p>';
+            } else {
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Nome do Arquivo</th>
+                            <th>Tamanho</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                `;
+
+                data.files.forEach(file => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${file.name}</td>
+                        <td>${formatFileSize(file.size)}</td>
+                        <td><button onclick="downloadFile('${file.name}')">Download</button></td>
+                        <button onclick="deleteFile('${file.name}')">Delete</button>
+                       
+                    `;
+                    table.querySelector('tbody').appendChild(row);
+                });
+
+                fileList.appendChild(table);
+            }
+        } catch (error) {
+            console.error(error);
+            fileList.innerHTML = '<p>Erro ao carregar os arquivos.</p>';
+        }
+    }
+
+    // Função para realizar download
+    async function downloadFile(fileName) {
+        try {
+            const response = await fetch(`http://localhost:5000/download/${encodeURIComponent(fileName)}`);
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage || 'Erro ao realizar o download.');
+            }
+
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error('Erro ao realizar o download:', error);
+            alert('Erro ao realizar o download: ' + error.message);
+        }
+    }
+
+    // Chamar a função ao carregar a página
+    fetchFileList();
+
+    // Função para realizar exclusão
+    async function deleteFile(fileName) {
+        if (!confirm(`Você tem certeza que deseja deletar o arquivo "${fileName}"?`)) return;
+
+        try {
+            const response = await fetch(`http://localhost:5000/delete/${encodeURIComponent(fileName)}`, {
+                method: 'DELETE',
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message || 'Arquivo deletado com sucesso!');
+                fetchFileList(); // Atualiza a lista após a exclusão
+            } else {
+                throw new Error(result.error || 'Erro ao deletar arquivo.');
+            }
+        } catch (error) {
+            console.error('Erro ao deletar arquivo:', error);
+            alert('Erro ao deletar arquivo: ' + error.message);
+        }
+    }
+</script>
+
+</body>
+</html>

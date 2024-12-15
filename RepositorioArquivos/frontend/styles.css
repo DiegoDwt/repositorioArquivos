@@ -1,0 +1,152 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* Estilo do main */
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Botão de upload com largura reduzida */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 8px 20px; /* Tamanho ajustado */
+    border-radius: 5px;
+    font-size: 0.9rem;
+    width: auto; /* Ajusta a largura do botão */
+    display: inline-block;
+    margin: 5px auto; /* Centralizado */
+}
+
+button:hover {
+    background-color: #45a049;
+    opacity: 0.9;
+}
+
+/* Estilo do histórico */
+#history-list {
+    list-style: none;
+    padding: 0;
+}
+
+#history-list li {
+    display: flex; /* Layout flexível para colunas */
+    justify-content: space-between; /* Espaço entre as colunas */
+    align-items: center; /* Alinhar verticalmente */
+    padding: 15px; /* Padding ajustado */
+    margin-bottom: 15px; /* Espaçamento entre os itens */
+    border-bottom: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
+
+#history-list li span {
+    flex-basis: 30%; /* Largura relativa para as colunas */
+    text-align: left;
+    overflow: hidden; /* Evitar quebra de linha */
+    text-overflow: ellipsis; /* Reticências se o texto for muito longo */
+    white-space: nowrap;
+}
+
+#history-list li:last-child {
+    border-bottom: none;
+}
+
+/* Estilo do footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border-top: 1px solid #ddd;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Estilo para mensagens */
+p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+#upload-status,
+#download-status {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: -10px;
+}
+
+/* Botão de exclusão */
+button.delete {
+    background-color: red;
+    color: white;
+    padding: 5px 15px;
+    font-size: 0.8rem;
+    margin: 5px; /* Ajuste para espaçamento */
+}
+
+button.delete:hover {
+    background-color: darkred;
+}

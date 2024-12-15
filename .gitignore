@@ -1,0 +1,45 @@
+# Ignorar diretórios e arquivos do MySQL
+/RepositorioArquivos/mysql_data/
+/RepositorioArquivos/mysql_data/**
+
+# Ignorar chaves privadas e arquivos de configuração sensíveis
+/RepositorioArquivos/.oci/*.pem
+/RepositorioArquivos/.oci/config
+
+# Ignorar arquivos de log
+*.log
+*.out
+*.err
+
+# Ignorar ambientes virtuais
+/RepositorioArquivos/backend/venv/
+/RepositorioArquivosgit add/frontend/node_modules/
+
+# Ignorar cache do Python
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar configurações de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignorar arquivos temporários
+*.swp
+*.bak
+*.tmp
+*.old
+
+# Ignorar arquivos compactados ou pacotes
+*.zip
+*.tar.gz
+*.rar
+
+# Ignorar artefatos gerados pelo Docker
+docker-compose.override.yml
+/RepositorioArquivos/backend/__pycache__/
+/RepositorioArquivos/frontend/dist/
+/RepositorioArquivos/mysql/*.sock
+/RepositorioArquivos/mysql/*.pid
+s
