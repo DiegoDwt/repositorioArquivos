@@ -67,12 +67,6 @@
             return;
         }
 
-        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf']; // Tipos permitidos
-        if (!allowedTypes.includes(file.type)) {
-            document.getElementById('upload-status').textContent = 'Tipo de arquivo não permitido.';
-            return;
-        }
-
         const formData = new FormData();
         formData.append('file', file);
 

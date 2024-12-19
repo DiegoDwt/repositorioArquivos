@@ -3,7 +3,6 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import os
-
 from app.routes import routes_blueprint
 
 # Inicializar extensões

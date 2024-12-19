@@ -1,0 +1,7 @@
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaamzpu2g7wngwhyzxcnjcye2owp4nb6wua7rdkrwqjea32vzgbysbq
+fingerprint=c2:e4:50:e7:1e:dc:a2:30:23:55:e6:ca:75:09:ac:77
+key_file=/app/.oci/diegodalwitt@hotmail.com_2024-12-05T00_03_01.395Z.pem
+tenancy=ocid1.tenancy.oc1..aaaaaaaalthnrdjjykskgyrbe2vqo5suoexhmfoxf4z6ikxfnycjepz6p33q
+region=sa-saopaulo-1
+compartment=ocid1.compartment.oc1..aaaaaaaamoot3jggime43uqh6pkzqh72r7zo7uyjggsjvw7kqa4mqnymkeua
